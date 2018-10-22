@@ -3,8 +3,6 @@ package in.aerem.AlicePlugin;
 import java.util.logging.Logger;
 
 import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.block.BlockState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
