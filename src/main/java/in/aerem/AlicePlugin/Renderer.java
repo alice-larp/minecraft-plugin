@@ -22,5 +22,8 @@ public class Renderer extends MapRenderer {
                 mapCanvas.setPixel(x, y, MapPalette.BLUE);
             }
         }
+        mapView.setUnlimitedTracking(false);
+        mapView.setCenterX(999999);
+        mapView.setCenterZ(999999);
     }
 }
