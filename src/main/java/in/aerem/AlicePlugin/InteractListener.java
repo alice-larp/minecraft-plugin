@@ -2,6 +2,7 @@ package in.aerem.AlicePlugin;
 
 import java.util.logging.Logger;
 
+import com.google.zxing.WriterException;
 import org.bukkit.Color;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -41,6 +42,10 @@ public class InteractListener implements Listener {
         logger.info("onMapInitialize");
         MapView mapView = e.getMap();
         mapView.getRenderers().clear();
-        mapView.addRenderer(new Renderer(logger));
+        try {
+            mapView.addRenderer(new Renderer(logger));
+        } catch (WriterException e1) {
+            logger.warning(e.toString());
+        }
     }
 }
