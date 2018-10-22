@@ -22,8 +22,9 @@ public class InteractListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event)
     {
-        logger.info(event.getClickedBlock().toString());
+        logger.info("onPlayerInteract");
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK && !event.isBlockInHand()) {
+            logger.info(event.getClickedBlock().toString());
             MaterialData matData = event.getClickedBlock().getState().getData();
             if (matData instanceof Wool) {
                 Wool wool = (Wool) matData;
