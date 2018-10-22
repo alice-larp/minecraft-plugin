@@ -2,12 +2,13 @@ package in.aerem.AlicePlugin;
 
 import java.util.logging.Logger;
 
-import org.bukkit.Material;
+import org.bukkit.Color;
+import org.bukkit.block.BlockState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-
+import org.bukkit.material.Wool;
 
 public class InteractListener implements Listener {
     private final Logger logger;
@@ -20,12 +21,14 @@ public class InteractListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event)
     {
         logger.info(event.getClickedBlock().toString());
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (event.getClickedBlock().getType() == Material.PURPLE_WOOL) {
-                LightsController.switchLight(true);
-            }
-            if (event.getClickedBlock().getType() == Material.BLACK_WOOL) {
-                LightsController.switchLight(false);
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && !event.isBlockInHand()) {
+            BlockState state = event.getClickedBlock().getState();
+            Wool wool = (Wool) state.getData();
+            if (wool != null) {
+                Color c = wool.getColor().getColor();
+                logger.info("Setting color to " + LightsController.setColor(c.getRed(), c.getGreen(), c.getBlue()));
+            } else {
+                logger.warning("Not a wool!");
             }
         }
     }
