@@ -7,6 +7,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.server.MapInitializeEvent;
+import org.bukkit.map.MapView;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Wool;
 
@@ -32,5 +34,13 @@ public class InteractListener implements Listener {
                 logger.warning("Not a wool!");
             }
         }
+    }
+
+    @EventHandler
+    public void onMapInitialize(MapInitializeEvent e) {
+        logger.info("onMapInitialize");
+        MapView mapView = e.getMap();
+        mapView.getRenderers().clear();
+        mapView.addRenderer(new Renderer(logger));
     }
 }
