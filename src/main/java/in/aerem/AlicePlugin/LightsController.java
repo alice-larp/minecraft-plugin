@@ -16,7 +16,7 @@ public class LightsController {
         }
     }
 
-    public static String setColor(int red, int green, int blue) {
+    public static void setColor(int red, int green, int blue) {
         int[] hueAndSat = getHueAndSat(red, green, blue);
         String urlParameters = "{ \"hue\": " +
                 hueAndSat[0]
@@ -24,8 +24,6 @@ public class LightsController {
                 hueAndSat[1]
                 + " }";
         executePost(urlParameters);
-        return  urlParameters;
-
     }
 
     private static int[] getHueAndSat(int red, int green, int blue) {

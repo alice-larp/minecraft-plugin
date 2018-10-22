@@ -26,7 +26,7 @@ public class InteractListener implements Listener {
             Wool wool = (Wool) state.getData();
             if (wool != null) {
                 Color c = wool.getColor().getColor();
-                logger.info("Setting color to " + LightsController.setColor(c.getRed(), c.getGreen(), c.getBlue()));
+                LightsController.setColor(c.getRed(), c.getGreen(), c.getBlue());
             } else {
                 logger.warning("Not a wool!");
             }
