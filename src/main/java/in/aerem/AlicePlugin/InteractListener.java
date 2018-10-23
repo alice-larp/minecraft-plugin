@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.server.MapInitializeEvent;
+import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Wool;
@@ -41,7 +42,9 @@ public class InteractListener implements Listener {
     public void onMapInitialize(MapInitializeEvent e) {
         logger.info("onMapInitialize");
         MapView mapView = e.getMap();
-        mapView.getRenderers().clear();
+        for (MapRenderer r : mapView.getRenderers()) {
+            mapView.removeRenderer(r);
+        }
         try {
             mapView.addRenderer(new Renderer(logger));
         } catch (WriterException e1) {

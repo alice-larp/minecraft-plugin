@@ -32,8 +32,5 @@ public class Renderer extends MapRenderer {
                 mapCanvas.setPixel(x, y, bitMatrix.get(x, y) ? MapPalette.DARK_BROWN : MapPalette.WHITE);
             }
         }
-        mapView.setUnlimitedTracking(false);
-        mapView.setCenterX(999999);
-        mapView.setCenterZ(999999);
     }
 }
