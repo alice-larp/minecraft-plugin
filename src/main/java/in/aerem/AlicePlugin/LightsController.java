@@ -1,32 +1,31 @@
 package in.aerem.AlicePlugin;
 
+import com.google.gson.Gson;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LightsController {
+    private static Gson gson = new Gson();
+
     public static void switchLight(Boolean on) {
-        if (on) {
-            executePost("{ \"on\": true }");
-        } else {
-            executePost("{ \"on\": false }");
-        }
+        Map<String, Boolean> m = new HashMap<String, Boolean>();
+        m.put("on", on);
+        executePost(gson.toJson(m));
     }
 
     public static void setColor(int red, int green, int blue) {
-        int[] hueAndSat = getHueAndSat(red, green, blue);
-        String urlParameters = "{ \"hue\": " +
-                hueAndSat[0]
-                + ", \"sat\": " +
-                hueAndSat[1]
-                + " }";
-        executePost(urlParameters);
+        HueState s = getHueAndSat(red, green, blue);
+        executePost(gson.toJson(s));
     }
 
-    private static int[] getHueAndSat(int red, int green, int blue) {
+    private static HueState getHueAndSat(int red, int green, int blue) {
 
         float min = Math.min(Math.min(red, green), blue);
         float max = Math.max(Math.max(red, green), blue);
@@ -35,7 +34,7 @@ public class LightsController {
         int sat = Math.round(255 * delta / (255 - Math.abs(min + max - 255)));
 
         if (min == max) {
-            return new int[]{0, sat};
+            return new HueState(0, sat);
         }
 
         float hue = 0f;
@@ -52,7 +51,7 @@ public class LightsController {
         hue = hue * (65536 / 6);
         if (hue < 0) hue = hue + 65536;
 
-        return new int[]{Math.round(hue), sat};
+        return new HueState(Math.round(hue), sat);
     }
 
     private  static String executePost(String urlParameters) {
