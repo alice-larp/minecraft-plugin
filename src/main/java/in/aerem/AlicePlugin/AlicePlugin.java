@@ -2,15 +2,11 @@ package in.aerem.AlicePlugin;
 
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandException;
 import org.bukkit.plugin.java.JavaPlugin;
 import spark.Spark;
 
 public class AlicePlugin extends JavaPlugin {
     private static Gson gson = new Gson();
-
-    public AlicePlugin() {
-    }
 
     @Override
     public void onEnable() {
