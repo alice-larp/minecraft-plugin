@@ -14,14 +14,14 @@ import java.util.Map;
 public class LightsController {
     private static Gson gson = new Gson();
 
-    public static void switchLight(Boolean on) {
-        Map<String, Boolean> m = new HashMap<String, Boolean>();
-        m.put("on", on);
-        executePost(gson.toJson(m));
-    }
+    //public static void switchLight(Boolean on) {
+    //    Map<String, Boolean> m = new HashMap<String, Boolean>();
+    //    m.put("on", on);
+    //    executePost(gson.toJson(m));
+    //}
 
     public static void setColor(int red, int green, int blue) {
-        HueState s = getHueAndSat(red, green, blue);
+        HomeAssistantState s = new HomeAssistantState(red, green, blue);
         executePost(gson.toJson(s));
     }
 
@@ -59,7 +59,7 @@ public class LightsController {
         HttpURLConnection connection = null;
         try {
             //Create connection
-            url = new URL("http://hue-bridge/api/oWAlM9UyEqI41ABIYvfTXltr5Fu80xTUpwP2lBbg/lights/5/state");
+            url = new URL("http://raspberrypi:1880/crystal/color");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("PUT");
             connection.setRequestProperty("Content-Type", "application/json");

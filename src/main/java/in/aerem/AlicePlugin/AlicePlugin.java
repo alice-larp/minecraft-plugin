@@ -11,7 +11,7 @@ public class AlicePlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         getLogger().info("onEnable is called!");
-        LightsController.switchLight(true);
+        // LightsController.switchLight(true);
         getServer().getPluginManager().registerEvents(new InteractListener(getLogger()), this);
         Spark.init();
         Spark.post("/command", (request, response) -> {
@@ -32,6 +32,6 @@ public class AlicePlugin extends JavaPlugin {
     public void onDisable() {
         getLogger().info("onDisable is called!");
         Spark.stop();
-        LightsController.switchLight(false);
+        // LightsController.switchLight(false);
     }
 }
