@@ -59,7 +59,7 @@ public class LightsController {
         HttpURLConnection connection = null;
         try {
             //Create connection
-            url = new URL("http://raspberrypi:1880/crystal/color");
+            url = new URL("http://hassbian:1880/bulb/color");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("PUT");
             connection.setRequestProperty("Content-Type", "application/json");
