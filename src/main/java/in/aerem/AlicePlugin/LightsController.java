@@ -21,7 +21,7 @@ public class LightsController {
     //}
 
     public static void setColor(int red, int green, int blue) {
-        HomeAssistantState s = new HomeAssistantState(red, green, blue);
+        ColorState s = new ColorState(red, green, blue);
         executePost(gson.toJson(s));
     }
 
