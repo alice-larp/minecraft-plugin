@@ -1,6 +1,8 @@
 package in.aerem.AlicePlugin;
 
 import com.google.gson.Gson;
+import org.eclipse.paho.client.mqttv3.IMqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -8,21 +10,30 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 public class LightsController {
     private static Gson gson = new Gson();
-
+    private IMqttClient mqttClient;
     //public static void switchLight(Boolean on) {
     //    Map<String, Boolean> m = new HashMap<String, Boolean>();
     //    m.put("on", on);
     //    executePost(gson.toJson(m));
     //}
 
-    public static void setColor(int red, int green, int blue) {
+    LightsController(IMqttClient mqttClient) {
+        this.mqttClient = mqttClient;
+    }
+
+    public void setColor(int red, int green, int blue) {
         ColorState s = new ColorState(red, green, blue);
         executePost(gson.toJson(s));
+        try {
+            if (mqttClient != null) {
+                mqttClient.publish("minecraft/bulb/color", gson.toJson(s).getBytes(), 0, true);
+            }
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
     }
 
     private static HueState getHueAndSat(int red, int green, int blue) {

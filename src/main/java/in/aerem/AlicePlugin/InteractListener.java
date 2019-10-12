@@ -1,10 +1,9 @@
 package in.aerem.AlicePlugin;
 
-import java.util.logging.Logger;
-
 import com.google.zxing.WriterException;
-import org.bukkit.block.Block;
 import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,16 +12,20 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.server.MapInitializeEvent;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
-import org.bukkit.material.MaterialData;
-import org.bukkit.Material;
-import org.bukkit.material.Wool;
 import org.bukkit.material.Lever;
+import org.bukkit.material.MaterialData;
+import org.bukkit.material.Wool;
+import org.eclipse.paho.client.mqttv3.IMqttClient;
+
+import java.util.logging.Logger;
 
 public class InteractListener implements Listener {
     private final Logger logger;
+    private final LightsController lightsController;
 
-    public InteractListener(Logger logger) {
+    public InteractListener(Logger logger, IMqttClient mqttClient) {
         this.logger = logger;
+        this.lightsController = new LightsController(mqttClient);
     }
 
     @EventHandler
@@ -34,7 +37,7 @@ public class InteractListener implements Listener {
             if (matData instanceof Wool) {
                 Wool wool = (Wool) matData;
                 Color c = wool.getColor().getColor();
-                LightsController.setColor(c.getRed(), c.getGreen(), c.getBlue());
+                lightsController.setColor(c.getRed(), c.getGreen(), c.getBlue());
             } else {
                 logger.warning("Not a wool!");
             }
@@ -46,9 +49,9 @@ public class InteractListener implements Listener {
         if (block.getType().equals(Material.LEVER)) {
             Lever lever = (Lever) block.getState().getData();
             if (lever.isPowered()) {
-                LightsController.setColor(255, 0, 0);
+                lightsController.setColor(255, 0, 0);
             } else {
-                LightsController.setColor(0, 255, 0);
+                lightsController.setColor(0, 255, 0);
             }
         }
     }
